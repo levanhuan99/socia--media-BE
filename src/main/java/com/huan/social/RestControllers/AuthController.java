@@ -39,4 +39,8 @@ public class AuthController {
         Account currentAccount = accountService.findByEmail(account.getEmail()).get();
         return ResponseEntity.ok(new JwtResponse(jwt,currentAccount.getId(), userDetails.getUsername(), currentAccount.getNickName(),userDetails.getAuthorities()));
     }
+    @PostMapping("/register")
+    public ResponseEntity<Account> register(@RequestBody Account account){
+
+    }
 }

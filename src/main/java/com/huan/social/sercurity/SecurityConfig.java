@@ -91,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
             roleList.add(new Role(1L, "ROLE_ADMIN"));
             roleList.add(new Role(2L, "ROLE_USER"));
             admin.setEmail("admin@gmail.com");
-            admin.setNickName("admin");
+            admin.setNickName("adminNickName");
             admin.setPassword("admin");
             admin.setPhoneNumber("0972522048");
             admin.setAvatar("https://ramenparados.com/wp-content/uploads/2019/03/no-avatar-png-8.png");

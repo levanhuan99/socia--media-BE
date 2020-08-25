@@ -25,7 +25,7 @@ public class AccountService implements IAccount {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
 
