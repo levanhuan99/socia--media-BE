@@ -10,4 +10,6 @@ public interface IAccount extends UserDetailsService {
 
     Optional<Account> findByEmail(String email);
     Account save(Account account);
+
+    Optional<Account> findById(Long id);
 }

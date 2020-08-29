@@ -95,6 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
             admin.setPassword("admin");
             admin.setPhoneNumber("0972522048");
             admin.setAvatar("https://ramenparados.com/wp-content/uploads/2019/03/no-avatar-png-8.png");
+            admin.setCoverPhoto("https://ramenparados.com/wp-content/uploads/2019/03/no-avatar-png-8.png");
 
             admin.setRoles(roleList);
             accountService.save(admin);
@@ -111,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         http.csrf().ignoringAntMatchers("/**");
 
         http.authorizeRequests()
-                .antMatchers("/login" ).permitAll()
+                .antMatchers("/login","/register" ).permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));

@@ -17,10 +17,10 @@ public class Account {
 
     private String nickName;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;// Dung email de login
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(nullable = false)
@@ -33,6 +33,9 @@ public class Account {
 
     @Column(columnDefinition = "TEXT")
     private String avatar;
+
+    @Column(columnDefinition = "TEXT")
+    private String coverPhoto;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

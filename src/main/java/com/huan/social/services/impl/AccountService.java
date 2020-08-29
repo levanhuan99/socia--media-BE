@@ -26,6 +26,7 @@ public class AccountService implements IAccount {
     private RoleService roleService;
 
 
+
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
 
@@ -59,5 +60,10 @@ public class AccountService implements IAccount {
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         return accountRepository.save(account);
+    }
+
+    @Override
+    public Optional<Account> findById(Long id) {
+        return accountRepository.findById(id);
     }
 }
