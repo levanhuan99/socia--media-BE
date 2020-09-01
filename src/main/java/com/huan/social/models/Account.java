@@ -1,5 +1,6 @@
 package com.huan.social.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,4 +40,8 @@ public class Account {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @OneToMany
+    @JsonIgnore
+    private Set<FriendRequest> friendRequests;
 }

@@ -28,7 +28,7 @@ public class AccountController {
     }
 
     @PutMapping("{id}/edit")
-    public ResponseEntity<Account> editAccount(@PathVariable Long id,@RequestBody Account account){
+    public  ResponseEntity<Account> editAccount(@PathVariable Long id,@RequestBody Account account){
         Optional<Account> currentAccount=accountService.findById(id);
         if (!currentAccount.isPresent()){
             return new ResponseEntity<>( HttpStatus.NO_CONTENT);
@@ -40,4 +40,5 @@ public class AccountController {
 
         return new ResponseEntity<>(currentAccount.get(),HttpStatus.OK);
     }
+
 }

@@ -66,41 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
-//
-//    @PostConstruct
-//    public void init() {
-//
-//
-//        List<Account> accounts = (List<Account>) accountService.findAll();
-//        List<Role> roles = (List<Role>) roleService.findAll();
-//        if (roles.isEmpty()) {
-//            Role roleAdmin = new Role();
-//            roleAdmin.setId(1L);
-//            roleAdmin.setName("ROLE_ADMIN");
-//            roleService.save(roleAdmin);
-//
-//            Role roleCoach = new Role();
-//            roleCoach.setId(2L);
-//            roleCoach.setName("ROLE_USER");
-//            roleService.save(roleCoach);
-//        }
-//
-//        if (accounts.isEmpty()) {
-//            Account admin = new Account();
-//            Set<Role> roleList = new HashSet<>();
-//            roleList.add(new Role(1L, "ROLE_ADMIN"));
-//            roleList.add(new Role(2L, "ROLE_USER"));
-//            admin.setEmail("admin@gmail.com");
-//            admin.setNickName("adminNickName");
-//            admin.setPassword("admin");
-//            admin.setPhoneNumber("0972522048");
-//            admin.setAvatar("https://ramenparados.com/wp-content/uploads/2019/03/no-avatar-png-8.png");
-//            admin.setCoverPhoto("https://ramenparados.com/wp-content/uploads/2019/03/no-avatar-png-8.png");
-//
-//            admin.setRoles(roleList);
-//            accountService.save(admin);
-//        }
-//    }
+
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {

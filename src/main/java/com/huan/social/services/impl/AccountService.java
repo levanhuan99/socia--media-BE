@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -65,5 +66,13 @@ public class AccountService implements IAccount {
     @Override
     public Optional<Account> findById(Long id) {
         return accountRepository.findById(id);
+    }
+
+    @Override
+    public List<Account> findAccountByNickName(String userName) {
+        return accountRepository.findAccountsByNickNameContaining(userName);
+    }
+    Account getAll(){
+        return new Account();
     }
 }
