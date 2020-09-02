@@ -20,14 +20,14 @@ public class FriendFinderController {
     private AccountService accountService;
 
     @GetMapping("search")
-    public ResponseEntity<List<Account>> getSearchResult(@RequestBody String userName){
+    public ResponseEntity<List<Account>> getSearchResult( String q) {
 
-       List<Account> accountList= accountService.findAccountByNickName(userName);
-       if (accountList.isEmpty()){
-           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-       }
-       else {
-           return new ResponseEntity<>(accountList,HttpStatus.OK);
-       }
+        List<Account> accountList = accountService.findAccountByNickName(q);
+        if (accountList.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(accountList, HttpStatus.OK);
+        }
     }
 }

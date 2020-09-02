@@ -72,7 +72,4 @@ public class AccountService implements IAccount {
     public List<Account> findAccountByNickName(String userName) {
         return accountRepository.findAccountsByNickNameContaining(userName);
     }
-    Account getAll(){
-        return new Account();
-    }
 }

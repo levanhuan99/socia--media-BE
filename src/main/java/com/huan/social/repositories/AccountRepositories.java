@@ -15,5 +15,9 @@ public interface AccountRepositories extends JpaRepository<Account,Long> {
     Optional<Account> findByEmail(String email);
     Optional<Account> findById(Long id);
 
+
     List<Account> findAccountsByNickNameContaining(String userName);
+    List<Account> findAllByNickNameContains(String userName);
+
+
 }
