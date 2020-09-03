@@ -13,16 +13,14 @@ public class FriendRequest {
     @Id
     private Long id;
 
-    private boolean friendStatus;
+    private String friendStatus; //Yes,Pending,No
 
     @ManyToOne
-    @JoinColumn (name = "acccountRecive")
+    @JoinColumn(name = "acccountReciver")
     private Account acccountReciver;
 
     @ManyToOne
-    @JoinColumn (name = "acccountSender")
+    @JoinColumn(name = "acccountSender")
     private Account acccountSender;
-
-
 
 }
