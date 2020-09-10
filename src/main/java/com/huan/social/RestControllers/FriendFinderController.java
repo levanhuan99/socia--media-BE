@@ -3,7 +3,6 @@ package com.huan.social.RestControllers;
 
 import com.huan.social.models.Account;
 import com.huan.social.models.FriendRequest;
-import com.huan.social.services.IAccount;
 import com.huan.social.services.impl.AccountService;
 import com.huan.social.services.impl.FriendRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,17 @@ public class FriendFinderController {
     @Autowired
     private FriendRequestService friendRequestService;
 
+
+    //need to have id of sender to find list Account for designing API when return
     @GetMapping("search")
-    public ResponseEntity<List<Account>> getSearchResult( String q) {
+    public ResponseEntity<List<Account>> getSearchResult(String q,) {
 
         List<Account> accountList = accountService.findAccountByNickName(q);
+        List<FriendRequest> friendRequestList=null;
+        for (int a = 0; a < accountList.size(); a++) {
+//            accountList.get(a).getId()
+            List<FriendRequest> list=this.friendRequestService.findAllByAcccountSender();
+        }
         if (accountList.isEmpty()) {
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -36,25 +42,35 @@ public class FriendFinderController {
             return new ResponseEntity<>(accountList, HttpStatus.OK);
         }
     }
-//
+
     @PostMapping("sendRequest")
-    public ResponseEntity<?> sendRequest( @RequestBody Long senderId, @RequestBody Long reciverId){
-        Optional<Account> reciverAccount=accountService.findById(senderId);
-        Optional<Account> senderAccount=accountService.findById(reciverId);
-        if (reciverAccount.isPresent()&&senderAccount.isPresent()){
-            FriendRequest request=new FriendRequest();
+    public ResponseEntity<?> sendRequest(Long senderId, Long reciverId) {
+        Optional<Account> acountReciver = accountService.findById(senderId);
+        Optional<Account> accountSender = accountService.findById(reciverId);
 
-            request.setAcccountSender(senderAccount);
-
-
-            request.setAccountReciver(reciverAccount);
+        if (acountReciver.isPresent() && accountSender.isPresent()) {
+            FriendRequest friendRequest = this.friendRequestService.findFriendRequestByAcccountReciverAndAcccountSender(acountReciver.get(), accountSender.get());
+            if (friendRequest != null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            FriendRequest request = new FriendRequest();
+            request.setAcccountReciver(acountReciver.get());
+            request.setAcccountSender(accountSender.get());
             request.setFriendStatus("Pending");
-
             friendRequestService.save(request);
-            return ResponseEntity<>(HttpStatus.OK)
-        }
-        else {
-            ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+//    @PostMapping("listRequest")
+//    public ResponseEntity<?> getListRequest(){
+//
+//        return new ResponseEntity<?>();
+//    }
+//
 }
+
+
+

@@ -1,5 +1,6 @@
 package com.huan.social.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 public class FriendRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String friendStatus; //Yes,Pending,No
@@ -22,5 +24,9 @@ public class FriendRequest {
     @ManyToOne
     @JoinColumn(name = "acccountSender")
     private Account acccountSender;
+
+    public FriendRequest(){
+
+    }
 
 }
