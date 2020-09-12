@@ -13,6 +13,9 @@ import java.util.Optional;
 @Transactional
 public interface FriendRequestRepository extends JpaRepository<FriendRequest,Long> {
     Optional<FriendRequest> findFriendRequestByAcccountReciverAndAcccountSender(Account accountReciver , Account accountSender);
+
+    Optional<FriendRequest> findByAcccountReciverAndAcccountSender(Account accountReciver , Account accountSender);
+
     List<FriendRequest> findAllByAcccountSender(Account account);
 
     List<FriendRequest> findAllByAcccountSenderAndAcccountReciver(Account accountReciver , Account accountSender);

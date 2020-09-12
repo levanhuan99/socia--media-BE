@@ -30,13 +30,22 @@ public class FriendFinderController {
     //need to have id of sender to find list Account for designing API when return
     @GetMapping("search")
     public ResponseEntity<List<ResultSearch>> getSearchResult(String q, Long senderId) {
+
         Optional<Account> accountSender = this.accountService.findById(senderId);
+
         List<Account> accountList = accountService.findAccountByNickName(q);
+
         List<ResultSearch> resultSearchList = new ArrayList<>();
+
         for (int a = 0; a < accountList.size(); a++) {
+
+            //Find AccountReciver by
             Optional<Account> accountReciver = this.accountService.findById(accountList.get(a).getId());
-            Optional<FriendRequest> friendRequest = this.friendRequestService.findFriendRequestByAcccountReciverAndAcccountSender(accountSender.get(), accountReciver.get());
-            if (friendRequest.isPresent()){
+
+
+            Optional<FriendRequest> friendRequest = this.friendRequestService.findByAcccountReciverAndAcccountSender(accountSender.get(), accountReciver.get());
+
+            if (friendRequest.isPresent()) {
                 ResultSearch resultSearch = new ResultSearch();
                 resultSearch.setId(accountList.get(a).getId());
                 resultSearch.setAvatar(accountList.get(a).getAvatar());
@@ -46,10 +55,7 @@ public class FriendFinderController {
                 resultSearch.setPhoneNumber(accountList.get(a).getPhoneNumber());
                 resultSearch.setFriendStatus(friendRequest.get().getFriendStatus());
                 resultSearchList.add(resultSearch);
-            }else {
-                continue;
             }
-
         }
         if (resultSearchList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -78,13 +84,6 @@ public class FriendFinderController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @PostMapping("listRequest")
-//    public ResponseEntity<?> getListRequest(){
-//
-//        return new ResponseEntity<?>();
-//    }
-//
 }
 
 
