@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FriendRequestService implements IFriendRequest {
@@ -20,7 +21,7 @@ public class FriendRequestService implements IFriendRequest {
     }
 
     @Override
-    public FriendRequest findFriendRequestByAcccountReciverAndAcccountSender(Account accountReciver, Account accountSender) {
+    public Optional<FriendRequest> findFriendRequestByAcccountReciverAndAcccountSender(Account accountReciver, Account accountSender) {
         return this.friendRequestRepository.findFriendRequestByAcccountReciverAndAcccountSender(accountReciver, accountSender);
     }
 
