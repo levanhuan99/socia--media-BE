@@ -29,5 +29,14 @@ public class FriendRequestService implements IFriendRequest {
         return this.friendRequestRepository.findAllByAcccountSender(account);
     }
 
+    @Override
+    public List<FriendRequest> findAllByAcccountSenderAndAcccountReciver(Account accountReciver, Account accountSender) {
+        return this.friendRequestRepository.findAllByAcccountSenderAndAcccountReciver(accountReciver,accountSender);
+    }
+
+
+
+
+
 
 }

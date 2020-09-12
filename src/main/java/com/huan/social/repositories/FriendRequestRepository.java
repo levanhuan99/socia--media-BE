@@ -14,4 +14,5 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest,Lon
     FriendRequest findFriendRequestByAcccountReciverAndAcccountSender(Account accountReciver , Account accountSender);
     List<FriendRequest> findAllByAcccountSender(Account account);
 
+    List<FriendRequest> findAllByAcccountSenderAndAcccountReciver(Account accountReciver , Account accountSender);
 }
