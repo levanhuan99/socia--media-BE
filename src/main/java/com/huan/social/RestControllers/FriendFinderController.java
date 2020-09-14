@@ -54,8 +54,6 @@ public class FriendFinderController {
                 resultSearch.setFriendStatus("No");
             }
             resultSearchList.add(resultSearch);
-
-
         }
 
         if (resultSearchList.isEmpty()) {
@@ -69,10 +67,12 @@ public class FriendFinderController {
 
     @PostMapping("sendRequest")
     public ResponseEntity<?> sendRequest(Long senderId, Long reciverId) {
+
         Optional<Account> acountReciver = accountService.findById(senderId);
         Optional<Account> accountSender = accountService.findById(reciverId);
         Integer SenderId = Math.toIntExact(senderId);
         Integer ReciverId = Math.toIntExact(reciverId);
+
         if (acountReciver.isPresent() && accountSender.isPresent()) {
             FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccount(SenderId, ReciverId);
             if (friendRequest != null) {
@@ -88,7 +88,22 @@ public class FriendFinderController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("unfriend")
+    public ResponseEntity<?> unfriend(Long senderId, Long reciverId) {
 
+        Optional<Account> acountReciver = accountService.findById(senderId);
+        Optional<Account> accountSender = accountService.findById(reciverId);
+        Integer SenderId = Math.toIntExact(senderId);
+        Integer ReciverId = Math.toIntExact(reciverId);
+        if (acountReciver.isPresent() && accountSender.isPresent()) {
+            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccount(SenderId, ReciverId);
+            if (friendRequest != null) {
+                this.friendRequestService.delete(friendRequest);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }
 
 

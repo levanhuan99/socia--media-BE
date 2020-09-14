@@ -27,4 +27,9 @@ public class FriendRequestService implements IFriendRequest {
         return this.friendRequestRepository.findFrienRequestByAccount(accountSenderId,accountReciverId);
     }
 
+    @Override
+    public void delete(FriendRequest friendRequest) {
+        this.friendRequestRepository.delete(friendRequest);
+    }
+
 }

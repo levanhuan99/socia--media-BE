@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 @Transactional
@@ -16,5 +15,9 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
 
     @Query("select f from FriendRequest f where f.acccountReciverId = ?1 and f.acccountSenderId = ?2")
     FriendRequest findFrienRequestByAccount(Integer acccountReciverId, Integer acccountSenderId);
+
+//    @Query("delete from FriendRequest where acccountReciverId = ?1 and acccountSenderId = ?2")
+//    void deleteRequest(Integer acccountReciverId, Integer acccountSenderId);
+
 
 }
