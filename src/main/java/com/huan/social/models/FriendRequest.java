@@ -18,13 +18,13 @@ public class FriendRequest {
 
     private String friendStatus; //Yes,Pending,No
 
-    @ManyToOne
-    @JoinColumn(name = "acccountReciver")
-    private Account acccountReciver;
 
-    @ManyToOne
-    @JoinColumn(name = "acccountSender")
-    private Account acccountSender;
+    @JoinColumn(name = "acccountReciverId")
+    private Integer acccountReciverId;
+
+
+    @JoinColumn(name = "acccountSenderId")
+    private Integer acccountSenderId;
 
     public FriendRequest(){
 

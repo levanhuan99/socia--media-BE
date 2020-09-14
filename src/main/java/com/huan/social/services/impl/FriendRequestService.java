@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class FriendRequestService implements IFriendRequest {
+
     @Autowired
     private FriendRequestRepository friendRequestRepository;
 
@@ -20,29 +21,10 @@ public class FriendRequestService implements IFriendRequest {
         friendRequestRepository.save(request);
     }
 
-    @Override
-    public Optional<FriendRequest> findFriendRequestByAcccountReciverAndAcccountSender(Account accountReciver, Account accountSender) {
-        return this.friendRequestRepository.findFriendRequestByAcccountReciverAndAcccountSender(accountReciver, accountSender);
-    }
 
     @Override
-    public Optional<FriendRequest> findByAcccountReciverAndAcccountSender(Account accountReciver, Account accountSender) {
-        return this.friendRequestRepository.findByAcccountReciverAndAcccountSender(accountReciver,accountSender);
+    public FriendRequest findFrienRequestByAccount(Integer accountSenderId, Integer accountReciverId) {
+        return this.friendRequestRepository.findFrienRequestByAccount(accountSenderId,accountReciverId);
     }
-
-    @Override
-    public List<FriendRequest> findAllByAcccountSender(Account account) {
-        return this.friendRequestRepository.findAllByAcccountSender(account);
-    }
-
-    @Override
-    public List<FriendRequest> findAllByAcccountSenderAndAcccountReciver(Account accountReciver, Account accountSender) {
-        return this.friendRequestRepository.findAllByAcccountSenderAndAcccountReciver(accountReciver,accountSender);
-    }
-
-
-
-
-
 
 }

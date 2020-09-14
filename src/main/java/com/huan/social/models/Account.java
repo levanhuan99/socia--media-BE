@@ -1,7 +1,5 @@
 package com.huan.social.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,15 +20,14 @@ public class Account {
     private String nickName;
 
     @Column(nullable = false, unique = true)
-    private String email;// Dung email de login
+    private String email;
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(nullable = false)
     private String password;
-
-
+    
     private Date birthDay;
 
 //    private boolean status; //Su dung status de admin co quyen blog tai khoan nay
@@ -43,6 +41,6 @@ public class Account {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToMany
-    private List<FriendRequest> friendRequests;
+
 }
+
