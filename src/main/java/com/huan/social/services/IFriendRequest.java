@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public interface IFriendRequest {
     void save(FriendRequest request);
-    FriendRequest findFrienRequestByAccount(Integer accountSenderId,Integer accountReciverId);
+    FriendRequest findFrienRequestByAccountSenderandAccountReceiver(Integer accountSenderId, Integer accountReciverId);
     void delete(FriendRequest friendRequest);
+    List<FriendRequest> findAllFriend(String status, Integer accountReceiverId, Integer accountSenderId);
 
 
 }

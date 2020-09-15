@@ -3,8 +3,6 @@ package com.huan.social.sercurity;
 import com.huan.social.custom.CustomAccessDeniedHandler;
 import com.huan.social.custom.RestAuthenticationEntryPoint;
 import com.huan.social.filters.JwtAuthenticationFilter;
-import com.huan.social.models.Account;
-import com.huan.social.models.Role;
 import com.huan.social.services.impl.AccountService;
 import com.huan.social.services.impl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(accountService).passwordEncoder(passwordEncoder());
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

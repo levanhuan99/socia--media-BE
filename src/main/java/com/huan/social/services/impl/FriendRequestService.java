@@ -1,6 +1,5 @@
 package com.huan.social.services.impl;
 
-import com.huan.social.models.Account;
 import com.huan.social.models.FriendRequest;
 import com.huan.social.repositories.FriendRequestRepository;
 import com.huan.social.services.IFriendRequest;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FriendRequestService implements IFriendRequest {
@@ -23,13 +21,19 @@ public class FriendRequestService implements IFriendRequest {
 
 
     @Override
-    public FriendRequest findFrienRequestByAccount(Integer accountSenderId, Integer accountReciverId) {
-        return this.friendRequestRepository.findFrienRequestByAccount(accountSenderId,accountReciverId);
+    public FriendRequest findFrienRequestByAccountSenderandAccountReceiver(Integer accountSenderId, Integer accountReciverId) {
+        return this.friendRequestRepository.findFrienRequestByAccountSenderandAccountReceiver(accountSenderId,accountReciverId);
     }
 
     @Override
     public void delete(FriendRequest friendRequest) {
         this.friendRequestRepository.delete(friendRequest);
     }
+
+    @Override
+    public List<FriendRequest> findAllFriend(String status, Integer accountReceiverId, Integer accountSenderId) {
+        return this.friendRequestRepository.findAllFriend(status,accountReceiverId,accountSenderId);
+    }
+
 
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ResultSearch {
+public class ResponseFriend {
     private Long id;
 
     private String nickName;
@@ -23,6 +23,6 @@ public class ResultSearch {
 
     private String friendStatus;
 
-    public ResultSearch() {
+    public ResponseFriend() {
     }
 }
