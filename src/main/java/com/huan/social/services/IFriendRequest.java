@@ -11,6 +11,6 @@ public interface IFriendRequest {
     FriendRequest findFrienRequestByAccountSenderandAccountReceiver(Integer accountSenderId, Integer accountReciverId);
     void delete(FriendRequest friendRequest);
     List<FriendRequest> findAllFriend(String status, Integer accountReceiverId, Integer accountSenderId);
-
+    List<FriendRequest> findRequests(String status,Integer receiverId);
 
 }

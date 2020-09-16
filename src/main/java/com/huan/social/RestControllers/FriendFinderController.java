@@ -88,6 +88,38 @@ public class FriendFinderController {
         }
     }
 
+    @GetMapping("request-list")
+    public ResponseEntity<List<ResponseFriend>> getRequestList(Long id) {
+        Optional<Account> account = accountService.findById(id);
+        Integer Id = Math.toIntExact(id);
+        List<ResponseFriend> responseFriends = new ArrayList<>();
+        if (account.isPresent()) {
+            List<FriendRequest> friendRequestList = this.friendRequestService.findRequests( "Pending",Id);
+            if (!friendRequestList.isEmpty()) {
+                for (int i = 0; i < friendRequestList.size(); i++) {
+                    ResponseFriend responseFriend = new ResponseFriend();
+                    Optional<Account> friend = accountService.findById(Long.valueOf(friendRequestList.get(i).getAcccountSenderId()));
+                    responseFriend.setId(friend.get().getId());
+                    responseFriend.setAvatar(friend.get().getAvatar());
+                    responseFriend.setCoverPhoto(friend.get().getCoverPhoto());
+                    responseFriend.setEmail(friend.get().getEmail());
+                    responseFriend.setNickName(friend.get().getNickName());
+                    responseFriend.setPhoneNumber(friend.get().getPhoneNumber());
+                    responseFriend.setFriendStatus(friendRequestList.get(i).getFriendStatus());
+                    responseFriends.add(responseFriend);
+                }
+                return new ResponseEntity<>(responseFriends, HttpStatus.OK);
+
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
     @PostMapping("unfriend")
     public ResponseEntity<?> unfriend(Long senderId, Long reciverId) {
 
@@ -111,17 +143,15 @@ public class FriendFinderController {
         Integer Id = Math.toIntExact(id);
         List<ResponseFriend> responseFriends = new ArrayList<>();
         if (acount.isPresent()) {
-            List<FriendRequest> friendRequestList = this.friendRequestService.findAllFriend("Yes",Id,Id);
+            List<FriendRequest> friendRequestList = this.friendRequestService.findAllFriend("Yes", Id, Id);
             if (!friendRequestList.isEmpty()) {
                 for (int i = 0; i < friendRequestList.size(); i++) {
-                    ResponseFriend responseFriend=new ResponseFriend();
-                    //đang lấy luôn sender id để tìm theo ra account là đang sai logic
-                    Long friendId=null;
-                    if (Id!=friendRequestList.get(i).getAcccountSenderId()){
-                        friendId= Long.valueOf(friendRequestList.get(i).getAcccountSenderId());
-                    }
-                    else {
-                        friendId= Long.valueOf(friendRequestList.get(i).getAcccountReciverId());
+                    ResponseFriend responseFriend = new ResponseFriend();
+                    Long friendId = null;
+                    if (Id != friendRequestList.get(i).getAcccountSenderId()) {
+                        friendId = Long.valueOf(friendRequestList.get(i).getAcccountSenderId());
+                    } else {
+                        friendId = Long.valueOf(friendRequestList.get(i).getAcccountReciverId());
                     }
                     Optional<Account> friend = accountService.findById(friendId);
                     responseFriend.setId(friend.get().getId());
@@ -133,9 +163,27 @@ public class FriendFinderController {
                     responseFriend.setFriendStatus(friendRequestList.get(i).getFriendStatus());
                     responseFriends.add(responseFriend);
                 }
-                return new ResponseEntity<>(responseFriends,HttpStatus.OK);
+                return new ResponseEntity<>(responseFriends, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+    @PostMapping("confirm")
+    public ResponseEntity<?> confirmRequest(Long receiverId,Long senderId){
+        Optional<Account> accountReceiver = accountService.findById(receiverId);
+        Optional<Account> accountSender = accountService.findById(senderId);
+        Integer SenderId = Math.toIntExact(senderId);
+        Integer ReceiverId = Math.toIntExact(receiverId);
+        if (accountReceiver.isPresent() && accountSender.isPresent()){
+            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderandAccountReceiver(ReceiverId,SenderId);
+            if (friendRequest!=null){
+                friendRequest.setFriendStatus("Yes");
+                this.friendRequestService.save(friendRequest);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

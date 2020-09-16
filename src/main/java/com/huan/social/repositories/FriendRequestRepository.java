@@ -23,5 +23,6 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
     @Query("select f from FriendRequest f where f.friendStatus= ?1 and (f.acccountReciverId = ?2 or f.acccountSenderId=?3)")
     List<FriendRequest> findAllFriend(String status, Integer accountReceiverId, Integer accountSenderId);
 
-
+    @Query("select f from FriendRequest f where f.friendStatus= ?1 and f.acccountReciverId = ?2")
+    List<FriendRequest> findRequests(String status,Integer receiverId);
 }

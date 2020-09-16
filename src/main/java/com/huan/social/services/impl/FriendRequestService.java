@@ -35,5 +35,10 @@ public class FriendRequestService implements IFriendRequest {
         return this.friendRequestRepository.findAllFriend(status,accountReceiverId,accountSenderId);
     }
 
+    @Override
+    public List<FriendRequest> findRequests(String status, Integer receiverId) {
+        return this.friendRequestRepository.findRequests(status,receiverId);
+    }
+
 
 }
