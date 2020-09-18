@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -168,7 +167,6 @@ public class FriendFinderController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
 
     @PostMapping("confirm")
     public ResponseEntity<?> confirmRequest(Long receiverId,Long senderId){
