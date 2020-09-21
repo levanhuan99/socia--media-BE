@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +37,8 @@ public class FriendFinderController {
 
         for (int a = 0; a < accountList.size(); a++) {
 
-            Integer ReciverId = Math.toIntExact(accountList.get(a).getId());
-
-            FriendRequest friendRequest1 = this.friendRequestService.findFrienRequestByAccountSenderandAccountReceiver(ReciverId, SenderId);
+            Integer ReceiverId = Math.toIntExact(accountList.get(a).getId());
+            FriendRequest friendRequest1 = this.friendRequestService.findFriend(SenderId, ReceiverId,SenderId,ReceiverId);
             ResponseFriend responseFriend = new ResponseFriend();
             responseFriend.setId(accountList.get(a).getId());
             responseFriend.setAvatar(accountList.get(a).getAvatar());
@@ -46,11 +46,11 @@ public class FriendFinderController {
             responseFriend.setEmail(accountList.get(a).getEmail());
             responseFriend.setNickName(accountList.get(a).getNickName());
             responseFriend.setPhoneNumber(accountList.get(a).getPhoneNumber());
-            if (friendRequest1 != null) {
-
-                responseFriend.setFriendStatus(friendRequest1.getFriendStatus());
-            } else {
+            if (friendRequest1 == null ) {
                 responseFriend.setFriendStatus("No");
+            }
+            else  {
+                responseFriend.setFriendStatus(friendRequest1.getFriendStatus());
             }
             responseFriendList.add(responseFriend);
         }
@@ -72,16 +72,18 @@ public class FriendFinderController {
         Integer SenderId = Math.toIntExact(senderId);
         Integer ReciverId = Math.toIntExact(reciverId);
         if (acountReciver.isPresent() && accountSender.isPresent()) {
-            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderandAccountReceiver(SenderId, ReciverId);
-            if (friendRequest != null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderAndAccountReceiver1(SenderId, ReciverId);
+            if (friendRequest == null) {
+                FriendRequest request = new FriendRequest();
+                request.setAcccountReciverId(Math.toIntExact(acountReciver.get().getId()));
+                request.setAcccountSenderId(Math.toIntExact(accountSender.get().getId()));
+                request.setFriendStatus("Pending");
+                friendRequestService.save(request);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
-            FriendRequest request = new FriendRequest();
-            request.setAcccountReciverId(Math.toIntExact(acountReciver.get().getId()));
-            request.setAcccountSenderId(Math.toIntExact(accountSender.get().getId()));
-            request.setFriendStatus("Pending");
-            friendRequestService.save(request);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -93,7 +95,7 @@ public class FriendFinderController {
         Integer Id = Math.toIntExact(id);
         List<ResponseFriend> responseFriends = new ArrayList<>();
         if (account.isPresent()) {
-            List<FriendRequest> friendRequestList = this.friendRequestService.findRequests( "Pending",Id);
+            List<FriendRequest> friendRequestList = this.friendRequestService.findRequests("Pending", Id);
             if (!friendRequestList.isEmpty()) {
                 for (int i = 0; i < friendRequestList.size(); i++) {
                     ResponseFriend responseFriend = new ResponseFriend();
@@ -109,8 +111,7 @@ public class FriendFinderController {
                 }
                 return new ResponseEntity<>(responseFriends, HttpStatus.OK);
 
-            }
-            else {
+            } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
@@ -121,13 +122,12 @@ public class FriendFinderController {
 
     @PostMapping("unfriend")
     public ResponseEntity<?> unfriend(Long senderId, Long reciverId) {
-
         Optional<Account> acountReciver = accountService.findById(senderId);
         Optional<Account> accountSender = accountService.findById(reciverId);
         Integer SenderId = Math.toIntExact(senderId);
         Integer ReciverId = Math.toIntExact(reciverId);
         if (acountReciver.isPresent() && accountSender.isPresent()) {
-            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderandAccountReceiver(SenderId, ReciverId);
+            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderAndAccountReceiver1(SenderId, ReciverId);
             if (friendRequest != null) {
                 this.friendRequestService.delete(friendRequest);
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -169,19 +169,20 @@ public class FriendFinderController {
     }
 
     @PostMapping("confirm")
-    public ResponseEntity<?> confirmRequest(Long receiverId,Long senderId){
+    public ResponseEntity<?> confirmRequest(Long receiverId, Long senderId) {
         Optional<Account> accountReceiver = accountService.findById(receiverId);
         Optional<Account> accountSender = accountService.findById(senderId);
         Integer SenderId = Math.toIntExact(senderId);
         Integer ReceiverId = Math.toIntExact(receiverId);
-        if (accountReceiver.isPresent() && accountSender.isPresent()){
-            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderandAccountReceiver(ReceiverId,SenderId);
-            if (friendRequest!=null){
+        if (accountReceiver.isPresent() && accountSender.isPresent()) {
+            FriendRequest friendRequest = this.friendRequestService.findFrienRequestByAccountSenderAndAccountReceiver1(ReceiverId, SenderId);
+            if (friendRequest != null) {
                 friendRequest.setFriendStatus("Yes");
                 this.friendRequestService.save(friendRequest);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
+
         }
-       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

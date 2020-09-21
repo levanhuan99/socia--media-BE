@@ -19,12 +19,6 @@ public class FriendRequestService implements IFriendRequest {
         friendRequestRepository.save(request);
     }
 
-
-    @Override
-    public FriendRequest findFrienRequestByAccountSenderandAccountReceiver(Integer accountSenderId, Integer accountReciverId) {
-        return this.friendRequestRepository.findFrienRequestByAccountSenderandAccountReceiver(accountSenderId,accountReciverId);
-    }
-
     @Override
     public void delete(FriendRequest friendRequest) {
         this.friendRequestRepository.delete(friendRequest);
@@ -40,5 +34,19 @@ public class FriendRequestService implements IFriendRequest {
         return this.friendRequestRepository.findRequests(status,receiverId);
     }
 
+    @Override
+    public FriendRequest findFrienRequestByAccountSenderAndAccountReceiver1(Integer accountSenderId, Integer accountReceiverId) {
+        return this.friendRequestRepository.findFrienRequestByAccountSenderandAccountReceiver1(accountSenderId,accountReceiverId);
+    }
+
+    @Override
+    public FriendRequest findFriendRequestByAccountSenderAndAccountReceiver2(Integer accountReceiverId, Integer accountSenderId) {
+        return this.friendRequestRepository.findFrienRequestByAccountSenderandAccountReceiver2(accountReceiverId,accountSenderId);
+    }
+
+    @Override
+    public FriendRequest findFriend(Integer id1, Integer id2, Integer id3, Integer id4) {
+        return this.friendRequestRepository.findFriendRequestByAcccountReciverIdAndAcccountSenderIdOrAcccountSenderIdAndAcccountReciverId(id1,id2,id3,id4);
+    }
 
 }
